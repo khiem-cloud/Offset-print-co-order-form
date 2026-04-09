@@ -157,7 +157,7 @@ function calcUnit(cut,mat,fin,h,w,qty){const fh=parseFloat(h)||0,fw=parseFloat(w
 let items=[],ctr=0;
 function addItem(){items.push({id:++ctr,name:'',h:'',w:'',qty:'',cut:'KISSCUT',mat:'WHITE VINYL',fin:'GLOSS LAMINATE',file:null});render();}
 function rmItem(id){items=items.filter(i=>i.id!==id);render();}
-function upd(id,f,v){const it=items.find(i=>i.id===id);if(it){it[f]=v;render();}}
+function upd(id,f,v){const it=items.find(i=>i.id===id);if(it){it[f]=v;if(f==='name'){updQ();}else{render();}}}
 function attFile(id,file){const it=items.find(i=>i.id===id);if(it){it.file=file;render();}}
 function moq(cut){return CUT_TYPE[cut]==='KC'?25:50;}
 
