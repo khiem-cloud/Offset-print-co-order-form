@@ -157,7 +157,8 @@ function calcUnit(cut,mat,fin,h,w,qty){const fh=parseFloat(h)||0,fw=parseFloat(w
 let items=[],ctr=0;
 function addItem(){items.push({id:++ctr,name:'',h:'',w:'',qty:'',cut:'KISSCUT',mat:'WHITE VINYL',fin:'GLOSS LAMINATE',file:null});render();}
 function rmItem(id){items=items.filter(i=>i.id!==id);render();}
-function upd(id,f,v){const it=items.find(i=>i.id===id);if(it){it[f]=v;if(f==='name'){updQ();}else{render();}}}
+function upd(id,f,v){const it=items.find(i=>i.id===id);if(it){it[f]=v;if(f==='name'||f==='h'||f==='w'||f==='qty'){updPriceRow(id);updQ();}else{render();}}}
+function updPriceRow(id){const it=items.find(i=>i.id===id);if(!it)return;const idx=items.indexOf(it);const rows=document.getElementById('tb').rows;if(!rows[idx])return;const u=calcUnit(it.cut,it.mat,it.fin,it.h,it.w,it.qty);const q=parseInt(it.qty)||0;const warn=(q>0&&q<moq(it.cut))?'Min. '+moq(it.cut)+' pcs':'';rows[idx].cells[8].textContent=u?'$'+u.toFixed(2):'—';rows[idx].cells[9].textContent=(u&&q)?'$'+(u*q).toFixed(2):'—';const qtyCell=rows[idx].cells[4];const existing=qtyCell.querySelector('.mw');if(existing)existing.remove();if(warn){const d=document.createElement('div');d.className='mw';d.textContent=warn;qtyCell.appendChild(d);}}
 function attFile(id,file){const it=items.find(i=>i.id===id);if(it){it.file=file;render();}}
 function moq(cut){return CUT_TYPE[cut]==='KC'?25:50;}
 
